@@ -21,7 +21,7 @@ def export_collection_as_dataframe(db_name , collection_name):
         mongo_client = MongoClient(MONGO_DB_URL ,tlsCAFile=certifi.where())
         collection = mongo_client[db_name][collection_name]
         df = pd.DataFrame(list(collection.find()))
-        print("Present in utils.py " , df.head())
+        # print("Present in utils.py " , df.head())
         if "_id" in df.columns.to_list():
             df = df.drop(columns=["_id"], axis=1)
 

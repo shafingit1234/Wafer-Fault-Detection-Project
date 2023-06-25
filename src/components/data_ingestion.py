@@ -36,7 +36,7 @@ class DataIngestion:
                 db_name=MONGO_DATABASE_NAME, collection_name=MONGO_COLLECTION_NAME
             )
             # print()
-            print("This one in data_ingestion.py ", df.head())
+            # print("This one in data_ingestion.py ", df.head())
 
             logging.info("Exported collection as dataframe")
 
