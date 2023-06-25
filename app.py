@@ -3,14 +3,15 @@ from src.exception import CustomException
 from src.logger import logging as lg
 import os,sys
 
-from src.pipeline.train_pipeline import TrainPipeline
-from src.pipeline.predict_pipeline import PredictionPipeline
+from src.pipeline.training_pipeline import TrainPipeline
+from src.pipeline.prediction_pipeline import PredictionPipeline
 
 app = Flask(__name__)
 
 @app.route("/")
 def home():
-    return jsonify("home")
+    # return jsonify("home")
+    return "<h1>Welcome to Home page</h1>"
 
 
 @app.route("/train")

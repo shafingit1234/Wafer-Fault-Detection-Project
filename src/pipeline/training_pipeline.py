@@ -18,20 +18,20 @@ class TrainPipeline:
         try:
             train_path, test_path = self.data_ingestion.initiate_data_ingestion()
 
-            (
-                train_arr,
-                test_arr,
-                preprocessor_file_path,
-            ) = self.data_transformation.initiate_data_transformation(
-                train_path=train_path, test_path=test_path
-            )
+            # (
+            #     train_arr,
+            #     test_arr,
+            #     preprocessor_file_path,
+            # ) = self.data_transformation.initiate_data_transformation(
+            #     train_path=train_path, test_path=test_path
+            # )
 
-            r2_square = self.model_trainer.initiate_model_trainer(
-                train_array=train_arr,
-                test_array=test_arr,
-                preprocessor_path=preprocessor_file_path,
-            )
-            print("training completed. Trained model score : ", r2_square)
+            # r2_square = self.model_trainer.initiate_model_trainer(
+            #     train_array=train_arr,
+            #     test_array=test_arr,
+            #     preprocessor_path=preprocessor_file_path,
+            # )
+            # print("training completed. Trained model score : ", r2_square)
 
         except Exception as e:
             raise CustomException(e, sys)
