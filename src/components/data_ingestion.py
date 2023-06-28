@@ -1,72 +1,103 @@
-import os
 import sys
+import os
+import numpy as np
 import pandas as pd
-
-
-from dataclasses import dataclass
-from sklearn.model_selection import train_test_split
+import certifi
+from pymongo import MongoClient
+from zipfile import Path
 from src.constant import *
 from src.exception import CustomException
 from src.logger import logging
-from src.utils import export_collection_as_dataframe
-# from src.constant import MONGO_DATABASE_NAME
-# from src.constant import MONGO_COLLECTION_NAME
-# Two steps in data ingestion component, first is to configure it second is to generate artifacts for future reference by other components.
-# Data class allows us not to explictly mention __init__ function.
+from src.utils.main_utils import MainUtils
+from dataclasses import dataclass
+
+
 @dataclass
 class DataIngestionConfig:
-    # I am going to create three files in artifacts where train_data_path is going to store trainining data.
-    train_data_path: str = os.path.join("artifacts", "train.csv")
-    # Raw_data_path is going to store raw data.
-    raw_data_path: str = os.path.join("artifacts", "data.csv")
-    # Test_data_path is going to store testing data.
-    test_data_path: str = os.path.join("artifacts", "test.csv")
+    artifact_folder: str = os.path.join(artifact_folder)
 
 
 class DataIngestion:
     def __init__(self):
-        # Here we are binding DataIngestionConfig variables into ingestion_config.
-        self.ingestion_config = DataIngestionConfig()
 
-    def initiate_data_ingestion(self):
-        logging.info("Entered initiate_data_ingestion method of DataIngestion class")
+        self.data_ingestion_config = DataIngestionConfig()
+        self.utils = MainUtils()
 
+    def export_collection_as_dataframe(self, collection_name, db_name):
         try:
-            df: pd.DataFrame = export_collection_as_dataframe(
-                db_name=MONGO_DATABASE_NAME, collection_name=MONGO_COLLECTION_NAME
-            )
-            # print()
-            # print("This one in data_ingestion.py ", df.head())
+            mongo_client = MongoClient(MONGO_DB_URL, tlsCAFile=certifi.where())
 
-            logging.info("Exported collection as dataframe")
+            collection = mongo_client[db_name][collection_name]
 
-            os.makedirs(
-                os.path.dirname(self.ingestion_config.train_data_path), exist_ok=True
-            )
-            # dumping raw data.
-            df.to_csv(self.ingestion_config.raw_data_path, index=False, header=True)
-            # dumping training and testing set.
-            train_set, test_set = train_test_split(df, test_size=0.2, random_state=42)
+            df = pd.DataFrame(list(collection.find()))
 
-            train_set.to_csv(
-                self.ingestion_config.train_data_path, index=False, header=True
-            )
+            if "_id" in df.columns.to_list():
+                df = df.drop(columns=["_id"], axis=1)
 
-            test_set.to_csv(
-                self.ingestion_config.test_data_path, index=False, header=True
-            )
+            df.replace({"na": np.nan}, inplace=True)
 
-            logging.info(
-                f"Ingested data from mongodb to {self.ingestion_config.raw_data_path}"
-            )
-
-            logging.info("Exited initiate_data_ingestion method of DataIngestion class")
-
-            return (
-                # Below information will be returned to our training pipeline and will be passed to data transformation components.
-                self.ingestion_config.train_data_path,
-                self.ingestion_config.test_data_path,
-            )
+            return df
 
         except Exception as e:
             raise CustomException(e, sys)
+
+    def export_data_into_feature_store_file_path(self) -> pd.DataFrame:
+        """
+        Method Name :   export_data_into_feature_store
+        Description :   This method reads data from mongodb and saves it into artifacts. 
+
+        Output      :   dataset is returned as a pd.DataFrame
+        On Failure  :   Write an exception log and then raise an exception
+
+        Version     :   0.1
+
+        """
+        try:
+            logging.info(f"Exporting data from mongodb")
+            raw_file_path = self.data_ingestion_config.artifact_folder
+            os.makedirs(raw_file_path, exist_ok=True)
+
+            sensor_data = self.export_collection_as_dataframe(
+                collection_name=MONGO_COLLECTION_NAME,
+                db_name=MONGO_DATABASE_NAME)
+
+            logging.info(
+                f"Saving exported data into feature store file path: {raw_file_path}")
+
+            feature_store_file_path = os.path.join(
+                raw_file_path, 'wafer_fault.csv')
+            sensor_data.to_csv(feature_store_file_path, index=False)
+
+            return feature_store_file_path
+
+        except Exception as e:
+            raise CustomException(e, sys)
+
+    def initiate_data_ingestion(self) -> Path:
+        """
+            Method Name :   initiate_data_ingestion
+            Description :   This method initiates the data ingestion components of training pipeline 
+
+            Output      :   train set and test set are returned as the artifacts of data ingestion components
+            On Failure  :   Write an exception log and then raise an exception
+
+            Version     :   1.2
+            Revisions   :   moved setup to cloud
+        """
+        logging.info(
+            "Entered initiate_data_ingestion method of Data_Ingestion class")
+
+        try:
+
+            feature_store_file_path = self.export_data_into_feature_store_file_path()
+
+            logging.info("Got the data from mongodb")
+
+            logging.info(
+                "Exited initiate_data_ingestion method of Data_Ingestion class"
+            )
+
+            return feature_store_file_path
+
+        except Exception as e:
+            raise CustomException(e, sys) from e
