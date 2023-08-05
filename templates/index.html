@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Home Page</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(to right, #74ebd5, #ACB6E5);
+        }
+
+        .container {
+            width: 100%;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .content {
+            text-align: center;
+            border: 1px solid #ccc;
+            padding: 40px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+            border-radius: 10px;
+        }
+
+        .button {
+            display: inline-block;
+            background-color: #ff9800;
+            color: white;
+            font-size: 24px;
+            font-weight: bold;
+            padding: 12px 24px;
+            border-radius: 4px;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+        }
+
+        .button:hover {
+            background-color: #ff8800;
+        }
+
+        .logo-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+
+        .logo {
+            border-radius: 50%;
+            overflow: hidden;
+            width: 200px;
+            height: 200px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
+        }
+
+        img {
+            width: 350px;
+        }
+
+        /* Loading Animation */
+        .loading-container {
+            display: none;
+            margin-top: 20px;
+            text-align: center;
+        }
+
+        .loading {
+            display: inline-block;
+            margin-right: 10px;
+        }
+
+        .loading:before {
+            content: "";
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            border: 2px solid #333;
+            border-top-color: transparent;
+            animation: spin 1s linear infinite;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            margin-top: 10px;
+        }
+
+        @keyframes spin {
+            to {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* Show the loading animation when the button is clicked */
+        .button.clicked~.loading-container {
+            display: block;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="content">
+            <h1>Wafer Fault Detection</h1>
+            <div class="logo-container">
+                <div class="logo">
+                    <img src="https://images.unsplash.com/photo-1587845323226-bad89242c735?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1187&q=80"
+                        alt="Wafer Fault Detection Logo" />
+                </div>
+            </div>
+            <div class="loading-container">
+                <div class="loading"></div>
+                <p class="loading-text">Training started please wait...</p>
+            </div>
+            <a class="button" href="/train" onclick="handleTrainClick()">Train Model</a>
+            <a class="button" href="/predict">Detect Faults</a>
+            <a class="button" href="/logged">Logs</a>
+        </div>
+    </div>
+
+    <script>
+        function handleTrainClick() {
+            var button = document.querySelector('.button');
+            var loadingContainer = document.querySelector('.loading-container');
+
+            // Add 'clicked' class to the button
+            button.classList.add('clicked');
+
+            // Show the loading container
+            loadingContainer.style.display = 'block';
+        }
+    </script>
+</body>
+
+</html>

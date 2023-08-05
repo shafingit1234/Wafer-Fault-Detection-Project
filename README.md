@@ -581,4 +581,29 @@ Now when you have successfully completed the steps above, push your code to your
 - SQL (For Database)
 - numpy
 - Pandas
-- 🏦 Industrial Use Cases
+
+# ScreenShots
+
+
+<h2 align="center">⛩ Training
+
+ 
+ 
+![image](D:\Projects\Wafer-Fault-Detection-Project\images\Training.png)
+<h2>
+
+<h2 align="center">⛩ Uploading Test.csv File
+
+ 
+ 
+![image](D:\Projects\Wafer-Fault-Detection-Project\images\Uploading.png)
+<h2>
+
+
+<h2 align="center">⛩ Result
+
+ 
+ 
+![image](D:\Projects\Wafer-Fault-Detection-Project\images\Result.png)
+<h2>
+
