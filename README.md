@@ -28,6 +28,11 @@ It undergoes many microfabrication processes, such as doping, ion implantation, 
 ```
 conda create --prefix venv python==3.8 -y
 ```
+## Why Do We Need ENV.
+OS is a universal environment, one must not create project dependency in the universal environment as this idea may lead to overlap with other projects. We need to create isolated environment such no two projects share same resources. Such isolations are important because different projects will need different dependencies. Conda will help us in preserving os resources as an environment solely for the use of project in which that environment is active.
+
+Anaconda on the other hand provides us with all necessary dependencies pre-installed in our environment helping in our data science projects.
+
 ```
 conda activate venv/
 ````
