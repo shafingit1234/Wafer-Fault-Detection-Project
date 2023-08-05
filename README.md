@@ -14,7 +14,9 @@ It undergoes many microfabrication processes, such as doping, ion implantation, 
 
 ##	Functional Architecture
 <h2 align = "center">
+
 ![image](https://user-images.githubusercontent.com/85347886/137639174-37f387fb-6597-473b-877c-9261ff9522b6.png)
+
 </h2>
 
  
