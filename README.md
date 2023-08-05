@@ -589,14 +589,14 @@ Now when you have successfully completed the steps above, push your code to your
 
  
  
-![image](D:\Projects\Wafer-Fault-Detection-Project\images\Training.png)
+![image](https://github.com/shafingit1234/Wafer-Fault-Detection-Project/blob/main/images/Training.png)
 <h2>
 
 <h2 align="center">⛩ Uploading Test.csv File
 
  
  
-![image](D:\Projects\Wafer-Fault-Detection-Project\images\Uploading.png)
+![image](https://github.com/shafingit1234/Wafer-Fault-Detection-Project/blob/main/images/Uploading.png)
 <h2>
 
 
@@ -604,6 +604,6 @@ Now when you have successfully completed the steps above, push your code to your
 
  
  
-![image](D:\Projects\Wafer-Fault-Detection-Project\images\Result.png)
+![image](https://github.com/shafingit1234/Wafer-Fault-Detection-Project/blob/main/images/Result.png)
 <h2>
 
