@@ -39,6 +39,18 @@ conda activate venv/
 2. Install Requirements and setup
 ```
 pip install -r requirements.txt
+
+## Need of setup.py File.
+In any project our main logic (Code) folder can be seen as a package, which needs to be dumped in our local environment. For example, in this project src folder consists of all the logic, it can be seen as a package and to make my environment identify it as a package I need to create a setup.py file.
+
+To execute the setup.py file use below command
+
+```
+
+python setup.py install
+```
+After executing the above command on executing pip list, we could see our src folder as a package.
+
 ```
 5. Run Application
 ```
